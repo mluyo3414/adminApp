@@ -10,6 +10,7 @@
     <string name="orders">Current Orders:</string>
     <string name="signOut">Sign Out</string>
     <string name="title_activity_each_order">EachOrder</string>
+    <string name="title_activity_FaceDection">Face Detection</string>
     <string name="hello_world">Hello world!</string>
        <string name="signIn">Admin Sign In!</string>
        <string name="name">Enter your name:</string>
