@@ -9,79 +9,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/serverIP" />
-
-        <EditText
-            android:id="@+id/IpAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="phone"
-            android:ems="10" />
-
-        <requestFocus />
-    </LinearLayout>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" >
+    </View>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/serverPort" />
-
-        <EditText
-            android:id="@+id/IpPort"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
-
-        <requestFocus />
-    </LinearLayout>
-        <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name" />
 
         <EditText
             android:id="@+id/admin_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            />
+            android:hint="@string/name_hint"
+            android:inputType="text"
+            android:textSize="18sp" />
 
         <requestFocus />
     </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" >
+    </View>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/connectButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/connectButton" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,13 +50,10 @@
         <TextView
             android:id="@+id/connectionStatus"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        
-        
-        
+            android:layout_height="wrap_content" />
     </LinearLayout>
-        <LinearLayout
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >

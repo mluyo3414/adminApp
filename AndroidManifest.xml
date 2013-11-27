@@ -18,7 +18,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -34,22 +34,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.foodserveradmin.FaceDetection"
-            android:label="@string/title_activity_FaceDection" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name="com.example.foodserveradmin.FromServer1" >
         </activity>
-        <activity
-            android:name="com.example.foodserveradmin.FromServer1"
-            android:label="@string/title_activity_from_server1" >
-        </activity>
-        <activity
-            android:name="com.example.foodserveradmin.EachOrder"
-            android:label="@string/title_activity_each_order" >
+        <activity android:name="com.example.foodserveradmin.EachOrder" >
         </activity>
     </application>
 

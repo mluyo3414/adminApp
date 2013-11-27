@@ -26,38 +26,34 @@ import android.widget.Toast;
 
 /**
  * 
- * @author Miguel S This is the first Activity where the admin inputs the IP and
- *         port (admin app).
+ * @author Miguel Suarez
+ * @author Carl Barbee
+ * @author James Dagres
+ * @author Matt Luckham
  * 
+ *         The administrator logins in by taking a picture which is checked to
+ *         make sure it is a valid person's face. The admin is directed to the
+ *         orders activity which displays all the current orders on the server.
  * 
  */
 
 public class MainActivity extends Activity {
-	protected EditText ipAddress;
-	protected EditText portNumber;
+
 	protected EditText nameEdit;
-	protected Button connectButton;
-	protected String stringIP;
-	protected String stringPort;
-	protected static String IPandPort;
 	protected static String name;
+	protected static String IPandPort;
 	protected Asyncserver myActivity;
 	protected TextView status;
 	protected Button takePic;
-	protected static String adminPictureFilePath;
-	File sdImageMainDirectory;
+	private File sdImageMainDirectory;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ipAddress = (EditText) findViewById(R.id.IpAddress);
-		portNumber = (EditText) findViewById(R.id.IpPort);
-		connectButton = (Button) findViewById(R.id.connectButton);
 		takePic = (Button) findViewById(R.id.signIn);
 		status = (TextView) findViewById(R.id.connectionStatus);
-		connectButton.setEnabled(false);
 		nameEdit = (EditText) findViewById(R.id.admin_name);
 
 		// Administer signs in if valid face is detected from picture.
@@ -74,37 +70,18 @@ public class MainActivity extends Activity {
 	/**
 	 * Once picture is taken, admin can try to connect to the server.
 	 */
-	public void buttonPressed() {
-		// allows connection to server
-		connectButton.setEnabled(true);
+	public void loginToServer() {
+
 		// admin can't log in twice
 		takePic.setEnabled(false);
-
-		connectButton.setOnClickListener(new View.OnClickListener() {
-
-			@SuppressLint("NewApi")
-			public void onClick(View view) {
-				if (!(ipAddress.getText().toString().isEmpty())
-						&& !(portNumber.getText().toString().isEmpty()))
-
-				{
-					// get values from Text edit and tries to connect to the
-					// server
-					myActivity = new Asyncserver(MainActivity.this);
-					stringPort = portNumber.getText().toString();
-					stringIP = ipAddress.getText().toString();
-					IPandPort = stringIP + ":" + stringPort;
-					// start AsyncTask
-					myActivity.execute(IPandPort);
-				}
-				else {
-					// if server parameters are empty
-					Toast.makeText(getApplicationContext(),
-							"Please enter server information ", Toast.LENGTH_SHORT).show();
-					buttonPressed();
-				}
-			}
-		});
+		// get values from Text edit and tries to connect to the
+		// server
+		myActivity = new Asyncserver(MainActivity.this);
+		String stringPort = "8080";
+		String stringIP = "54.201.86.103";
+	  IPandPort = stringIP + ":" + stringPort;
+		// start AsyncTask
+		myActivity.execute(IPandPort);
 	}
 
 	/**
@@ -112,7 +89,6 @@ public class MainActivity extends Activity {
 	 * server.
 	 */
 	public void takeAPicture() {
-		connectButton.setEnabled(false);
 
 		takePic.setOnClickListener(new View.OnClickListener() {
 
@@ -139,26 +115,10 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Checks if the application can handle the intent.
-	 * 
-	 * @param context
-	 * @param action
-	 * @return
-	 */
-	public static boolean isIntentAvailable(Context context, String action) {
-		final PackageManager packageManager = context.getPackageManager();
-		final Intent intent = new Intent(action);
-		List<ResolveInfo> list = packageManager.queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-		return list.size() > 0;
-	}
-
-	/**
 	 * Check for a valid admin picture taken then start listening for admin login
 	 * button press.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		connectButton.setEnabled(false);
 
 		if (requestCode == 0 && resultCode == RESULT_OK) {
 
@@ -177,7 +137,7 @@ public class MainActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "Valid Admin!",
 							Toast.LENGTH_SHORT).show();
 					// Start listening for admin login button.
-					buttonPressed();
+					loginToServer();
 				}
 				else {
 					Toast.makeText(getApplicationContext(), "Invalid Admin!",

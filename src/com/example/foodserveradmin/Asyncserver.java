@@ -52,7 +52,6 @@ public class Asyncserver extends AsyncTask<String, Void, String>
 	{
 		// main activity instance to start next activity
 		activity_ = nextActivity;
-		activity_.connectButton.setEnabled( false );
 	}
 
 	/**
