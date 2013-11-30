@@ -143,7 +143,7 @@ public class Asyncserver extends AsyncTask<String, Void, String>
 		ArrayList<HashMap<String, String>> returningArrayList;
 		returningArrayList = parseData( fromParseData );
 
-		Intent in = new Intent( activity_, FromServer1.class );
+		Intent in = new Intent( activity_, OrdersListing.class );
 
 		in.putExtra( "Data", returningArrayList );
 		

@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
 		myActivity = new Asyncserver(MainActivity.this);
 		String stringPort = "8080";
 		String stringIP = "54.201.86.103";
-	  IPandPort = stringIP + ":" + stringPort;
+		IPandPort = stringIP + ":" + stringPort;
 		// start AsyncTask
 		myActivity.execute(IPandPort);
 	}
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
+				// Create a new file for the picture.
 				File root = new File(Environment.getExternalStorageDirectory()
 						+ File.separator + "myDir" + File.separator);
 				root.mkdirs();
@@ -120,29 +120,26 @@ public class MainActivity extends Activity {
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == 0 && resultCode == RESULT_OK) {
+		// Check if picture file was created.
+		if (requestCode == 0 && resultCode == RESULT_OK
+				&& sdImageMainDirectory.exists()) {
+			BitmapFactory.Options BitmapFactoryOptionsbfo = new BitmapFactory.Options();
+			BitmapFactoryOptionsbfo.inPreferredConfig = Bitmap.Config.RGB_565;
+			Bitmap myBitmap = BitmapFactory.decodeFile(
+					sdImageMainDirectory.getAbsolutePath(), BitmapFactoryOptionsbfo);
+			FaceDetector.Face[] myFace = new FaceDetector.Face[1];
+			FaceDetector myFaceDetect = new FaceDetector(myBitmap.getWidth(),
+					myBitmap.getHeight(), 1);
+			myFaceDetect.findFaces(myBitmap, myFace);
 
-			// Check if picture file was created.
-			if (sdImageMainDirectory.exists()) {
-				BitmapFactory.Options BitmapFactoryOptionsbfo = new BitmapFactory.Options();
-				BitmapFactoryOptionsbfo.inPreferredConfig = Bitmap.Config.RGB_565;
-				Bitmap myBitmap = BitmapFactory.decodeFile(
-						sdImageMainDirectory.getAbsolutePath(), BitmapFactoryOptionsbfo);
-				FaceDetector.Face[] myFace = new FaceDetector.Face[1];
-				FaceDetector myFaceDetect = new FaceDetector(myBitmap.getWidth(),
-						myBitmap.getHeight(), 1);
-				myFaceDetect.findFaces(myBitmap, myFace);
-
-				if (myFace[0] != null && myFace[0].confidence() >= .3) {
-					Toast.makeText(getApplicationContext(), "Valid Admin!",
-							Toast.LENGTH_SHORT).show();
-					// Start listening for admin login button.
-					loginToServer();
-				}
-				else {
-					Toast.makeText(getApplicationContext(), "Invalid Admin!",
-							Toast.LENGTH_SHORT).show();
-				}
+			if (myFace[0] != null && myFace[0].confidence() >= .3) {
+				Toast.makeText(getApplicationContext(), "Valid Admin!",
+						Toast.LENGTH_SHORT).show();
+				loginToServer();
+			}
+			else {
+				Toast.makeText(getApplicationContext(), "Invalid Admin!",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

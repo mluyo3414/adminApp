@@ -31,8 +31,8 @@ public class deleteObject extends AsyncTask<String, Void, String>
 {
 
 	String Location, Name, Order;
-	FromServer1 activity_;
-	public deleteObject( FromServer1 nextActivity )
+	OrdersListing activity_;
+	public deleteObject( OrdersListing nextActivity )
 	{
 		// main activity instance to start next activity
 		activity_ = nextActivity;

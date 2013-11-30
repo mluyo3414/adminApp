@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.foodserveradmin.FromServer1" >
+        <activity android:name="com.example.foodserveradmin.OrdersListing" >
         </activity>
         <activity android:name="com.example.foodserveradmin.EachOrder" >
         </activity>
