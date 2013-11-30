@@ -15,6 +15,15 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+/**
+ * @author Miguel Suarez
+ * @author Carl Barbee
+ * @author James Dagres
+ * @author Matt Luckham
+ * 
+ *         Updates the OrdersListing activity with the new orders from the
+ *         server.
+ */
 public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 
 	private OrdersListing orderActivity;
@@ -22,22 +31,22 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 	private JSONArray Jarray = null;
 
 	/**
-	 * @author Miguel Suarez
-	 * @author Carl Barbee
-	 * @author James Dagres
-	 * @author Matt Luckham
+	 * Constructor for the UpdateOrderListing class.
 	 * 
 	 * @param orderListingActivity
 	 *          UpdateOrderListing constructor
 	 */
 	public UpdateOrderListing(OrdersListing nextActivity) {
-		// main activity instance to start next activity
 		orderActivity = nextActivity;
 	}
 
 	/**
 	 * Retrieves the new orders from the server to update the order listing
 	 * locally.
+	 * 
+	 * @param IPAndPort
+	 *          The IP and Port for the server.
+	 * @return data The data from the server.
 	 */
 	public String getInternetData(String IPAndPort) throws Exception {
 		BufferedReader in = null;
@@ -82,6 +91,13 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 		}
 	}
 
+	/**
+	 * Attempts to connect to the server to update the order listing.
+	 * 
+	 * @param params
+	 *          The IP and Port information to connect to the server.
+	 * @return data The data from the server.
+	 */
 	@Override
 	protected String doInBackground(String... params) {
 
@@ -101,11 +117,11 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 		return data;
 	}
 
+	/**
+	 * Returns to the OrdersListingActivity with the updated order list.
+	 */
 	@Override
 	protected void onPostExecute(String fromParseData) {
-		// creates an Arraylist so next activity can display
-		// orders in a ListView
-
 		ArrayList<HashMap<String, String>> returningArrayList;
 		returningArrayList = parseData(fromParseData);
 
@@ -118,7 +134,8 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 	 * Receiving order data from the server.
 	 * 
 	 * @param rawData
-	 * @return ArrayList of Orders Parses data received from the server
+	 *          Raw data received from the server.
+	 * @return OrderArrayList Parsed data received from the server.
 	 */
 	protected ArrayList<HashMap<String, String>> parseData(String rawData) {
 		// if there are orders in the server we will receive

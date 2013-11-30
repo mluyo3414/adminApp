@@ -38,7 +38,7 @@ import android.widget.Toast;
 public class Asyncserver extends AsyncTask<String, Void, String> {
 
 	protected String ipAndPort;
-	MainActivity activity_;
+	SettingsActivity activity_;
 	static JSONObject jObj = null;
 	JSONArray Jarray = null;
 
@@ -48,7 +48,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 	 * @param nextActivity
 	 *          ConnectAsync constructor
 	 */
-	public Asyncserver(MainActivity nextActivity) {
+	public Asyncserver(SettingsActivity nextActivity) {
 		// main activity instance to start next activity
 		activity_ = nextActivity;
 	}
@@ -100,6 +100,13 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 		}
 	}
 
+	/**
+	 * Attempts to connect to the server.
+	 * 
+	 * @param params
+	 *          The IP and port for the server.
+	 * @return The response from the server.
+	 */
 	@Override
 	protected String doInBackground(String... params) {
 		ipAndPort = params[0];
@@ -116,26 +123,28 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 		return data;
 	}
 
+	/**
+	 * Creates an array list to display the orders from the server in the order
+	 * activity.
+	 */
 	@Override
 	protected void onPostExecute(String fromParseData) {
-
-		// creates an Arraylist so next activity can display
-		// orders in a ListView
 		ArrayList<HashMap<String, String>> returningArrayList;
 		returningArrayList = parseData(fromParseData);
-		// Move to Order Activity.
 		Intent in = new Intent(activity_, OrdersListing.class);
 		in.putExtra("Data", returningArrayList);
 		activity_.startActivity(in);
 	}
 
 	/**
+	 * Parses data received from the server.
 	 * 
 	 * @param rawData
-	 * @return ArrayList of Orders Parses data received from the server
+	 *          from the server.
+	 * @return ArrayList of Orders
 	 */
 	protected ArrayList<HashMap<String, String>> parseData(String rawData) {
-		// if there are orders in the server we will receive
+		// If there are orders in the server we will receive
 		// a JSON array...
 		ArrayList<HashMap<String, String>> OrderArrayList = new ArrayList<HashMap<String, String>>();
 		String theNewData = "{\"Orders\": " + rawData + "}";
@@ -149,13 +158,16 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 		}
 		try {
 			// Getting Array of orders since there are multiple orders in the
-			// json array
+			// JSON array
 			Jarray = jObj.getJSONArray("Orders");
 
 			// looping through All objects
 			for (int i = 0; i < Jarray.length(); i++) {
 				JSONObject c = Jarray.getJSONObject(i);
-				// Storing each json item in variable
+
+				System.out.println("Order as JSONObject: " + c);
+
+				// Storing each JSON item in variable
 				String Location = c.getString("LOCATION");
 				String Name = c.getString("NAME");
 				String Order = c.getString("ORDER");
@@ -164,7 +176,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 				map.put("LOCATION", Location);
 				map.put("NAME", Name);
 				map.put("ORDER", Order);
-				// add each order to the list
+				// Add each order to the list.
 				OrderArrayList.add(map);
 			}
 		}
@@ -172,7 +184,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 			System.out.println("Error creating multiple JSON Objects at line 172.");
 			e.printStackTrace();
 		}
-		// passes back arrayList to doInBackground
+		// Passes back arrayList to doInBackground.
 		return OrderArrayList;
 	}
 }

@@ -20,20 +20,32 @@ public class ShakeEventListener implements SensorEventListener {
 	private static final int SHAKE_SLOPE_TIME_MS = 500;
 	// resets after 3 secs
 	private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
-
+	// The listener for the accelerometer.
 	private OnShakeListener mListener;
+	// The time stamp for the shake event.
 	private long mShakeTimestamp;
+	// The counter for the shake event.
 	private int mShakeCount;
 
+	/**
+	 * Constructor that initializes the onShakeListener.
+	 * 
+	 * @param onShakeListener
+	 */
 	public void setOnShakeListener(OnShakeListener onShakeListener) {
 		this.mListener = onShakeListener;
 	}
 
+	/**
+	 * Interface for the Accelerometer to start listening for a shake event.
+	 */
 	public interface OnShakeListener {
-
 		public void onShake(int count);
 	}
 
+	/**
+	 * Checks if the accuracy of the sensor has changed.
+	 */
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
@@ -55,6 +67,7 @@ public class ShakeEventListener implements SensorEventListener {
 
 			float gForce = (float) java.lang.Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
+			// Check for valid shake event.
 			if (gForce > SHAKE_THRESHOLD_GRAVITY) {
 				final long now = System.currentTimeMillis();
 				if (mShakeTimestamp + SHAKE_SLOPE_TIME_MS > now) {
@@ -68,7 +81,6 @@ public class ShakeEventListener implements SensorEventListener {
 				mShakeTimestamp = now;
 				// adding seconds to the counter
 				mShakeCount++;
-
 				mListener.onShake(mShakeCount);
 			}
 		}

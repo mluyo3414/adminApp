@@ -37,7 +37,7 @@ import android.widget.Toast;
  * 
  */
 
-public class MainActivity extends Activity {
+public class SettingsActivity extends Activity {
 
 	protected EditText nameEdit;
 	protected static String name;
@@ -47,6 +47,11 @@ public class MainActivity extends Activity {
 	protected Button takePic;
 	private File sdImageMainDirectory;
 
+	/**
+	 * Setups the layouts for the Settings Activity. Starts listening for the
+	 * admin to take a picture to login to the application.
+	 * 
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,9 +65,11 @@ public class MainActivity extends Activity {
 		takeAPicture();
 	}
 
+	/**
+	 * Inflate the menu; this adds items to the action bar if it is present.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -71,12 +78,11 @@ public class MainActivity extends Activity {
 	 * Once picture is taken, admin can try to connect to the server.
 	 */
 	public void loginToServer() {
-
 		// admin can't log in twice
 		takePic.setEnabled(false);
 		// get values from Text edit and tries to connect to the
 		// server
-		myActivity = new Asyncserver(MainActivity.this);
+		myActivity = new Asyncserver(SettingsActivity.this);
 		String stringPort = "8080";
 		String stringIP = "54.201.86.103";
 		IPandPort = stringIP + ":" + stringPort;
@@ -91,7 +97,6 @@ public class MainActivity extends Activity {
 	public void takeAPicture() {
 
 		takePic.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// Create a new file for the picture.
@@ -115,8 +120,15 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Check for a valid admin picture taken then start listening for admin login
-	 * button press.
+	 * Check for a valid administrator picture taken then start listening for
+	 * administrator login button press.
+	 * 
+	 * @param requestCode
+	 *          The request code for a valid picture.
+	 * @param resultCode
+	 *          The result code for a valid picture.
+	 * @param data
+	 *          The intent containing the administrators picture.
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

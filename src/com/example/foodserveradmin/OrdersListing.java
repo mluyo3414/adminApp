@@ -45,6 +45,7 @@ public class OrdersListing extends Activity {
 	private Sensor accelerometer_;
 	private ShakeEventListener shakeMeter_;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,15 +64,12 @@ public class OrdersListing extends Activity {
 		shakeMeter_.setOnShakeListener(new OnShakeListener() {
 			@Override
 			public void onShake(int count) {
-
 				handleShakeEvent(count);
 			}
 
 			private void handleShakeEvent(int count) {
-
-				Toast.makeText(getApplicationContext(), "Hello " + MainActivity.name,
+				Toast.makeText(getApplicationContext(), "Hello " + SettingsActivity.name,
 						Toast.LENGTH_SHORT).show();
-
 			}
 		});
 		// getting information from previous activity
@@ -80,24 +78,26 @@ public class OrdersListing extends Activity {
 			orderArrayList = (ArrayList<HashMap<String, String>>) b.get("Data");
 			// updates GUI with orders from the server if orders available
 			updateGUI(orderArrayList);
-
 		}
 		else {
-			Intent in = new Intent(getApplicationContext(), MainActivity.class);
-
+			Intent in = new Intent(getApplicationContext(), SettingsActivity.class);
 			startActivity(in);
 		}
-
 	}
 
+	/**
+	 * Inflate the menu; this adds items to the action bar if it is present.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.from_server1, menu);
 		return true;
 	}
 
 	/**
+	 * Triggers new activity once the order is selected a box to delete that order
+	 * will be displayed and then we will post that information to the server and
+	 * also delete it from our app Arraylist containing the orders.
 	 * 
 	 * @param dataFromServer
 	 *          Updates the Textview with the new information
@@ -105,18 +105,14 @@ public class OrdersListing extends Activity {
 	public void updateGUI(ArrayList<HashMap<String, String>> dataFromServer) {
 
 		orderArrayList = dataFromServer;
-		// ListView with each order containing name,order and location information.
+		// ListView with each order containing name, order, and location
+		// information.
 		final ListAdapter adapter = new SimpleAdapter(this, orderArrayList,
 				R.layout.activity_each_order, new String[] { "LOCATION", "NAME",
 						"ORDER" }, new int[] { R.id.Location, R.id.Name, R.id.Order });
 		orders.setAdapter(adapter);
 
 		orders.setOnItemClickListener(new OnItemClickListener() {
-			// triggers new activity once the order is selected
-			// a box to delete that order will be displayed
-			// an then we will post that information to the server
-			// and also delete it from our app Arraylist containing the orders.
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
@@ -145,17 +141,21 @@ public class OrdersListing extends Activity {
 		});
 	}
 
+	/**
+	 * Registers the Session Manager Listener onResume
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
-		// Registers the Session Manager Listener onResume
 		sensorManager_.registerListener(shakeMeter_, accelerometer_,
 				SensorManager.SENSOR_DELAY_UI);
 	}
 
+	/**
+	 * Unregister the Sensor Manager onPause
+	 */
 	@Override
 	public void onPause() {
-		// Unregister the Sensor Manager onPause
 		sensorManager_.unregisterListener(shakeMeter_);
 		super.onPause();
 	}
@@ -174,6 +174,7 @@ public class OrdersListing extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
 			Toast.makeText(this, "Server Updated!", Toast.LENGTH_SHORT).show();
+			// TODO Refresh the orders in the order activity.
 			// Update the server with the changes made locally.
 
 			break;
