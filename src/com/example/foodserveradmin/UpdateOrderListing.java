@@ -20,7 +20,12 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 	private OrdersListing orderActivity;
 	private static JSONObject jObj = null;
 	private JSONArray Jarray = null;
+
 	/**
+	 * @author Miguel Suarez
+	 * @author Carl Barbee
+	 * @author James Dagres
+	 * @author Matt Luckham
 	 * 
 	 * @param orderListingActivity
 	 *          UpdateOrderListing constructor
@@ -89,12 +94,11 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 			data = getInternetData(ipAndPort);
 		}
 		catch (Exception e) {
-
+			System.out
+					.println("Error while getting a response from the server on line 94.");
 			return null;
 		}
-
 		return data;
-
 	}
 
 	@Override
@@ -111,6 +115,7 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 	}
 
 	/**
+	 * Receiving order data from the server.
 	 * 
 	 * @param rawData
 	 * @return ArrayList of Orders Parses data received from the server
@@ -125,7 +130,7 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 			jObj = new JSONObject(theNewData);
 		}
 		catch (JSONException e1) {
-			// TODO Auto-generated catch block
+			System.out.println("Error creating a JSONObject on line 129.");
 			e1.printStackTrace();
 		}
 		try {
@@ -148,11 +153,11 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 				map.put("ORDER", Order);
 				// add each order to the list
 				OrderArrayList.add(map);
-
 			}
-
 		}
 		catch (JSONException e) {
+			System.out
+					.println("JSONExcpetion error while creating a JSONObject on line 138.");
 			e.printStackTrace();
 		}
 		// passes back arrayList to doInBackground

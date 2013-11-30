@@ -22,7 +22,10 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 /**
  * 
- * @author Miguel S
+ * @author Miguel Suarez
+ * @author Carl Barbee
+ * @author James Dagres
+ * @author Matt Luckham
  * 
  * This activity deletes one client from the server when the order is ready
  *

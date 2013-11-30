@@ -24,9 +24,13 @@ import android.widget.Toast;
 import com.example.foodserveradmin.ShakeEventListener.OnShakeListener;
 
 /**
+ * @author Miguel Suarez
+ * @author Carl Barbee
+ * @author James Dagres
+ * @author Matt Luckham
  * 
- * @author Miguel S This activity displays the response from the server. A
- *         number of orders are displayed if available
+ *         This activity displays the response from the server. A number of
+ *         orders are displayed if available
  */
 public class OrdersListing extends Activity {
 

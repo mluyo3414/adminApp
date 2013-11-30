@@ -7,13 +7,15 @@ import android.hardware.SensorManager;
 
 /**
  * 
- * @author Miguel S
+ * @author Miguel Suarez
+ * @author Carl Barbee
+ * @author James Dagres
+ * @author Matt Luckham
  * 
  *         This class contains information to activate the Accelerometer.
  * 
  */
-public class ShakeEventListener implements SensorEventListener
-{
+public class ShakeEventListener implements SensorEventListener {
 	private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
 	private static final int SHAKE_SLOPE_TIME_MS = 500;
 	// resets after 3 secs
@@ -23,31 +25,26 @@ public class ShakeEventListener implements SensorEventListener
 	private long mShakeTimestamp;
 	private int mShakeCount;
 
-	public void setOnShakeListener( OnShakeListener onShakeListener )
-	{
+	public void setOnShakeListener(OnShakeListener onShakeListener) {
 		this.mListener = onShakeListener;
 	}
 
-	public interface OnShakeListener
-	{
+	public interface OnShakeListener {
 
-		public void onShake( int count );
+		public void onShake(int count);
 	}
 
 	@Override
-	public void onAccuracyChanged( Sensor sensor, int accuracy )
-	{
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
 	/**
 	 * Detects the movement of the ACL.
 	 */
 	@Override
-	public void onSensorChanged( SensorEvent event )
-	{
+	public void onSensorChanged(SensorEvent event) {
 
-		if ( mListener != null )
-		{
+		if (mListener != null) {
 			float x = event.values[0];
 			float y = event.values[1];
 			float z = event.values[2];
@@ -56,19 +53,15 @@ public class ShakeEventListener implements SensorEventListener
 			float gY = y / SensorManager.GRAVITY_EARTH;
 			float gZ = z / SensorManager.GRAVITY_EARTH;
 
-			float gForce =
-					(float) java.lang.Math.sqrt( gX * gX + gY * gY + gZ * gZ );
+			float gForce = (float) java.lang.Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
-			if ( gForce > SHAKE_THRESHOLD_GRAVITY )
-			{
+			if (gForce > SHAKE_THRESHOLD_GRAVITY) {
 				final long now = System.currentTimeMillis();
-				if ( mShakeTimestamp + SHAKE_SLOPE_TIME_MS > now )
-				{
+				if (mShakeTimestamp + SHAKE_SLOPE_TIME_MS > now) {
 					return;
 				}
 
-				if ( mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now )
-				{
+				if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
 					mShakeCount = 0;
 				}
 
@@ -76,7 +69,7 @@ public class ShakeEventListener implements SensorEventListener
 				// adding seconds to the counter
 				mShakeCount++;
 
-				mListener.onShake( mShakeCount );
+				mListener.onShake(mShakeCount);
 			}
 		}
 	}
