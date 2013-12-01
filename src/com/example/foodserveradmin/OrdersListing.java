@@ -68,8 +68,8 @@ public class OrdersListing extends Activity {
 			}
 
 			private void handleShakeEvent(int count) {
-				Toast.makeText(getApplicationContext(), "Hello " + SettingsActivity.name,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						"Hello " + SettingsActivity.name, Toast.LENGTH_SHORT).show();
 			}
 		});
 		// getting information from previous activity
@@ -105,11 +105,12 @@ public class OrdersListing extends Activity {
 	public void updateGUI(ArrayList<HashMap<String, String>> dataFromServer) {
 
 		orderArrayList = dataFromServer;
-		// ListView with each order containing name, order, and location
-		// information.
+		// ListView with each order containing all the order information for each
+		// client.
 		final ListAdapter adapter = new SimpleAdapter(this, orderArrayList,
-				R.layout.activity_each_order, new String[] { "LOCATION", "NAME",
-						"ORDER" }, new int[] { R.id.Location, R.id.Name, R.id.Order });
+				R.layout.activity_each_order, new String[] { "PHONE", "TIME", "NAME",
+						"CONFIRMATION", "ORDER", "TOTAL" }, new int[] { R.id.Phone,
+						R.id.Time, R.id.Name, R.id.Confirmation, R.id.Order, R.id.Phone });
 		orders.setAdapter(adapter);
 
 		orders.setOnItemClickListener(new OnItemClickListener() {

@@ -30,11 +30,32 @@
             android:singleLine="false" />
 
         <TextView
-            android:id="@+id/Location"
+            android:id="@+id/Phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/Confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/Total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal" />
     </LinearLayout>
 
 </RelativeLayout>

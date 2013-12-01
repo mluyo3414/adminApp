@@ -166,9 +166,12 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 				JSONObject c = Jarray.getJSONObject(i);
 				
 				// Storing each JSON item in variable
-				String Location = c.getString("LOCATION");
+				String Phone = c.getString("PHONE");
+				String Time = c.getString("TIME");
 				String Name = c.getString("NAME");
+				String Confirmation = c.getString("CONFIRMATION");
 				String Order = c.getString("ORDER");
+				String Total = c.getString("TOTAL");
 				Order = Order.replace("[", "");
 				Order = Order.replace("]", "");
 
@@ -193,17 +196,20 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 					Order = sb.toString();
 				}
 
-				// storing individual order( one per hashmap)
+				// storing individual order
 				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("LOCATION", Location);
-				map.put("NAME", Name);
+				map.put("PHONE", "Phone Number: " + Phone);
+				map.put("TIME", "Order Time: " + Time);
+				map.put("NAME", "Client: " + Name);
+				map.put("CONFIRMATION", "Confirmation #: " + Confirmation);
 				map.put("ORDER", Order);
+				map.put("TOTAL", "Total: $" + Total);
 				// Add each order to the list.
 				OrderArrayList.add(map);
 			}
 		}
 		catch (JSONException e) {
-			System.out.println("Error creating multiple JSON Objects at line 172.");
+			System.out.println("Error creating multiple JSON Objects.");
 			e.printStackTrace();
 		}
 		// Passes back arrayList to doInBackground.
