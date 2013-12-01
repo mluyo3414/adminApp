@@ -39,7 +39,7 @@ public class OrdersListing extends Activity {
 	Bundle b;
 	ListView orders;
 	ArrayList<HashMap<String, String>> orderArrayList;
-	deleteObject deletingObject;
+	DeleteObject deletingObject;
 	// Accelerometer variable
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
@@ -97,7 +97,7 @@ public class OrdersListing extends Activity {
 	/**
 	 * Triggers new activity once the order is selected a box to delete that order
 	 * will be displayed and then we will post that information to the server and
-	 * also delete it from our app Arraylist containing the orders.
+	 * also delete it from our app Array list containing the orders.
 	 * 
 	 * @param dataFromServer
 	 *          Updates the Textview with the new information
@@ -130,7 +130,7 @@ public class OrdersListing extends Activity {
 				adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						// if ok then start new async to post
-						deletingObject = new deleteObject(OrdersListing.this);
+						deletingObject = new DeleteObject(OrdersListing.this);
 						((BaseAdapter) adapter).notifyDataSetChanged();
 						deletingObject.execute(orderArrayList.remove(positionToRemove)
 								.toString());

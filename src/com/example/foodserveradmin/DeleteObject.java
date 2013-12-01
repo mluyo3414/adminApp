@@ -30,7 +30,7 @@ import android.os.AsyncTask;
  *         ready.
  * 
  */
-public class deleteObject extends AsyncTask<String, Void, String> {
+public class DeleteObject extends AsyncTask<String, Void, String> {
 
 	String Location, Name, Order;
 	OrdersListing activity_;
@@ -41,7 +41,7 @@ public class deleteObject extends AsyncTask<String, Void, String> {
 	 * @param nextActivity
 	 *          main activity instance to start next activity
 	 */
-	public deleteObject(OrdersListing nextActivity) {
+	public DeleteObject(OrdersListing nextActivity) {
 		activity_ = nextActivity;
 	}
 

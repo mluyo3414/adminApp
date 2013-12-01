@@ -72,7 +72,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 			HttpGet request = new HttpGet(website);
 			HttpResponse response = client.execute(request);
 			// string using buffered reader
-			// streamreader bytes into characters
+			// stream reader bytes into characters
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
 			StringBuffer sb = new StringBuffer("");
@@ -94,7 +94,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
-					System.out.println("IO Exception on the line 93.");
+					System.out.println("IO Exception on the line 92.");
 				}
 			}
 		}
@@ -164,13 +164,35 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 			// looping through All objects
 			for (int i = 0; i < Jarray.length(); i++) {
 				JSONObject c = Jarray.getJSONObject(i);
-
-				System.out.println("Order as JSONObject: " + c);
-
+				
 				// Storing each JSON item in variable
 				String Location = c.getString("LOCATION");
 				String Name = c.getString("NAME");
 				String Order = c.getString("ORDER");
+				Order = Order.replace("[", "");
+				Order = Order.replace("]", "");
+
+				// Check for multiple orders.
+				if (Order.contains(",")) {
+					String[] str = Order.split(",");
+
+					Order = "";
+					String newLine = System.getProperty("line.separator");
+					StringBuffer sb = new StringBuffer("");
+
+					for (int j = 0; j < str.length; j++) {
+						String temp = str[j].replaceAll("^\\s+|\\s+$", "");
+						if (str.length - 1 > j) {
+							sb.append(temp + newLine);
+						}
+						else {
+							sb.append(temp);
+						}
+					}
+
+					Order = sb.toString();
+				}
+
 				// storing individual order( one per hashmap)
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("LOCATION", Location);

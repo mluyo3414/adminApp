@@ -61,8 +61,10 @@ public class SettingsActivity extends Activity {
 		status = (TextView) findViewById(R.id.connectionStatus);
 		nameEdit = (EditText) findViewById(R.id.admin_name);
 
+		//TODO Remove auto-login
 		// Administer signs in if valid face is detected from picture.
-		takeAPicture();
+//		takeAPicture();
+		loginToServer();
 	}
 
 	/**
