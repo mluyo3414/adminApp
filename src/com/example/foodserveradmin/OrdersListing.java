@@ -120,9 +120,10 @@ public class OrdersListing extends Activity {
 				AlertDialog.Builder adb = new AlertDialog.Builder(OrdersListing.this);
 				// parsing name
 				String[] names = orderArrayList.get(position).toString().split("NAME=");
-				String name = names[1];
-				name = name.substring(0, name.length() - 1);
-
+				//String[] names = orderArrayList.get(position).toString().split("NAME=");
+				String[] temp = names[1].split(",");
+				String name = temp[0].substring(8);
+							
 				adb.setTitle("Order Ready?");
 				adb.setMessage("Are you sure you want to delete " + name + "'s order?");
 				// alert dialog options

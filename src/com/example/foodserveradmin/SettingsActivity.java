@@ -86,7 +86,7 @@ public class SettingsActivity extends Activity {
 		// server
 		myActivity = new Asyncserver(SettingsActivity.this);
 		String stringPort = "8080";
-		String stringIP = "54.201.86.103";
+		String stringIP = "172.31.172.58";
 		IPandPort = stringIP + ":" + stringPort;
 		// start AsyncTask
 		myActivity.execute(IPandPort);

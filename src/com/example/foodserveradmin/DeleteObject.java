@@ -32,7 +32,7 @@ import android.os.AsyncTask;
  */
 public class DeleteObject extends AsyncTask<String, Void, String> {
 
-	String Location, Name, Order;
+	String Phone, Time, Name, Order, Total, Confirmation;
 	OrdersListing activity_;
 
 	/**
@@ -58,15 +58,16 @@ public class DeleteObject extends AsyncTask<String, Void, String> {
 	public String deleteOrder(String deleteOrder) throws URISyntaxException,
 			ClientProtocolException, IOException {
 		// parsing received information to post into server and delete orders
-		Location = deleteOrder.substring(deleteOrder.indexOf("=") + 1,
-				deleteOrder.indexOf(","));
-		Name = deleteOrder.substring(deleteOrder.indexOf("NAME") + 5,
-				deleteOrder.indexOf("}"));
-
-		Order = deleteOrder.substring(deleteOrder.indexOf("ORDER") + 6,
-				deleteOrder.indexOf("NAME"));
-		Order = Order.replaceAll(",", "");
-
+		Phone = deleteOrder.substring(deleteOrder.indexOf("Phone Number: ")+14, deleteOrder.indexOf(", TIME"));
+		Time = deleteOrder.substring(deleteOrder.indexOf("Order Time: ")+12, deleteOrder.indexOf(", ORDER"));
+		Order = deleteOrder.substring(deleteOrder.indexOf("ORDER=")+6, deleteOrder.indexOf(", TOTAL="));
+		Total = deleteOrder.substring(deleteOrder.indexOf("Total: $")+8, deleteOrder.indexOf(", NAME="));
+		Name = deleteOrder.substring(deleteOrder.indexOf("Client: ")+8, deleteOrder.indexOf(", CONFIRMATION="));
+		Confirmation = deleteOrder.substring(deleteOrder.indexOf("Confirmation #: ")+16);		
+		Confirmation = Confirmation.replace("}", "");
+		String newLine = System.getProperty("line.separator");
+		Order = Order.replaceAll(newLine, ", ");
+		
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost("http://" + SettingsActivity.IPandPort + "/admin");
 		String data = "";
@@ -75,7 +76,12 @@ public class DeleteObject extends AsyncTask<String, Void, String> {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
 			nameValuePairs.add(new BasicNameValuePair("username", Name));
 			nameValuePairs.add(new BasicNameValuePair("order", Order));
-			nameValuePairs.add(new BasicNameValuePair("location", Location));
+			nameValuePairs.add(new BasicNameValuePair("time", Time));
+			nameValuePairs.add(new BasicNameValuePair("total", Total));
+			nameValuePairs.add(new BasicNameValuePair("phone", Phone));
+			nameValuePairs.add(new BasicNameValuePair("confirmation", Confirmation));
+			
+			
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 			HttpResponse response = client.execute(post);
