@@ -2,6 +2,7 @@ package com.example.foodserveradmin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -90,8 +91,12 @@ public class OrdersListing extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.from_server1, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
 	}
 
 	/**
@@ -120,10 +125,11 @@ public class OrdersListing extends Activity {
 				AlertDialog.Builder adb = new AlertDialog.Builder(OrdersListing.this);
 				// parsing name
 				String[] names = orderArrayList.get(position).toString().split("NAME=");
-				//String[] names = orderArrayList.get(position).toString().split("NAME=");
+				// String[] names =
+				// orderArrayList.get(position).toString().split("NAME=");
 				String[] temp = names[1].split(",");
 				String name = temp[0].substring(8);
-							
+
 				adb.setTitle("Order Ready?");
 				adb.setMessage("Are you sure you want to delete " + name + "'s order?");
 				// alert dialog options
@@ -162,6 +168,9 @@ public class OrdersListing extends Activity {
 		super.onPause();
 	}
 
+	/**
+	 * Overriding the onDestroy method for the accelerometer.
+	 */
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -176,9 +185,10 @@ public class OrdersListing extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
 			Toast.makeText(this, "Server Updated!", Toast.LENGTH_SHORT).show();
-			// TODO Refresh the orders in the order activity.
-			// Update the server with the changes made locally.
-
+			// Refresh the orders in the order activity.
+			UpdateOrderListing updateOrder = new UpdateOrderListing(
+					OrdersListing.this);
+			updateOrder.execute(SettingsActivity.IPandPort);
 			break;
 		default:
 			break;

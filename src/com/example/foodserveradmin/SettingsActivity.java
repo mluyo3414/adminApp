@@ -41,7 +41,7 @@ public class SettingsActivity extends Activity {
 
 	protected EditText nameEdit;
 	protected static String name;
-	protected static String IPandPort;
+	public static String IPandPort;
 	protected Asyncserver myActivity;
 	protected TextView status;
 	protected Button takePic;
@@ -61,9 +61,9 @@ public class SettingsActivity extends Activity {
 		status = (TextView) findViewById(R.id.connectionStatus);
 		nameEdit = (EditText) findViewById(R.id.admin_name);
 
-		//TODO Remove auto-login
+		// TODO Remove auto-login
 		// Administer signs in if valid face is detected from picture.
-//		takeAPicture();
+		// takeAPicture();
 		loginToServer();
 	}
 

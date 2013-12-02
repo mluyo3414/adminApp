@@ -159,16 +159,46 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 			for (int i = 0; i < Jarray.length(); i++) {
 				JSONObject c = Jarray.getJSONObject(i);
 
-				// Storing each json item in variable
-				String Location = c.getString("LOCATION");
+				// Storing each JSON item in variable
+				String Phone = c.getString("PHONE");
+				String Time = c.getString("TIME");
 				String Name = c.getString("NAME");
+				String Confirmation = c.getString("CONFIRMATION");
 				String Order = c.getString("ORDER");
-				// storing individual order( one per hashmap)
+				String Total = c.getString("TOTAL");
+				Order = Order.replace("[", "");
+				Order = Order.replace("]", "");
+
+				// Check for multiple orders.
+				if (Order.contains(",")) {
+					String[] str = Order.split(",");
+
+					Order = "";
+					String newLine = System.getProperty("line.separator");
+					StringBuffer sb = new StringBuffer("");
+
+					for (int j = 0; j < str.length; j++) {
+						String temp = str[j].replaceAll("^\\s+|\\s+$", "");
+						if (str.length - 1 > j) {
+							sb.append(temp + newLine);
+						}
+						else {
+							sb.append(temp);
+						}
+					}
+
+					Order = sb.toString();
+				}
+
+				// storing individual order
 				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("LOCATION", Location);
-				map.put("NAME", Name);
+				map.put("PHONE", "Phone Number: " + Phone);
+				map.put("TIME", "Order Time: " + Time);
+				map.put("NAME", "Client: " + Name);
+				map.put("CONFIRMATION", "Confirmation #: " + Confirmation);
 				map.put("ORDER", Order);
-				// add each order to the list
+				map.put("TOTAL", "Total: $" + Total);
+				// Add each order to the list.
 				OrderArrayList.add(map);
 			}
 		}
