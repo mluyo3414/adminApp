@@ -193,7 +193,7 @@ public class Asyncserver extends AsyncTask<String, Void, String> {
 						}
 					}
 
-					Order = sb.toString();
+					Order = sb.toString().replaceAll("\\\\n", "\\\n");;
 				}
 
 				// storing individual order

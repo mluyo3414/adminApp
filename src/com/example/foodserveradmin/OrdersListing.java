@@ -95,6 +95,10 @@ public class OrdersListing extends Activity {
 		return true;
 	}
 
+	/**
+	 * Disables the back button for the Order activity to prevent admin from going
+	 * back to previous order listing.
+	 */
 	@Override
 	public void onBackPressed() {
 	}
@@ -115,7 +119,7 @@ public class OrdersListing extends Activity {
 		final ListAdapter adapter = new SimpleAdapter(this, orderArrayList,
 				R.layout.activity_each_order, new String[] { "PHONE", "TIME", "NAME",
 						"CONFIRMATION", "ORDER", "TOTAL" }, new int[] { R.id.Phone,
-						R.id.Time, R.id.Name, R.id.Confirmation, R.id.Order, R.id.Phone });
+						R.id.Time, R.id.Name, R.id.Confirmation, R.id.Order, R.id.Total });
 		orders.setAdapter(adapter);
 
 		orders.setOnItemClickListener(new OnItemClickListener() {
