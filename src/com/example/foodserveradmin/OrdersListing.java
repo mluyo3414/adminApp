@@ -140,6 +140,10 @@ public class OrdersListing extends Activity {
 						// if ok then start new async to post
 						deletingObject = new DeleteObject(OrdersListing.this);
 						((BaseAdapter) adapter).notifyDataSetChanged();
+						SendTextNotification sendSMSMessage = new SendTextNotification(
+								OrdersListing.this);
+						sendSMSMessage.execute(orderArrayList.get(positionToRemove)
+								.toString());
 						deletingObject.execute(orderArrayList.remove(positionToRemove)
 								.toString());
 					}
