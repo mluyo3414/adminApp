@@ -31,7 +31,8 @@ import com.example.foodserveradmin.ShakeEventListener.OnShakeListener;
  * @author Matt Luckham
  * 
  *         This activity displays the response from the server. A number of
- *         orders are displayed if available
+ *         orders are displayed if available where each order has a phone
+ *         number, name, order, confirmation, total, & time.
  */
 public class OrdersListing extends Activity {
 
@@ -122,6 +123,7 @@ public class OrdersListing extends Activity {
 						R.id.Time, R.id.Name, R.id.Confirmation, R.id.Order, R.id.Total });
 		orders.setAdapter(adapter);
 
+		// Waits for an order to be selected in order to delete it.
 		orders.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -129,8 +131,6 @@ public class OrdersListing extends Activity {
 				AlertDialog.Builder adb = new AlertDialog.Builder(OrdersListing.this);
 				// parsing name
 				String[] names = orderArrayList.get(position).toString().split("NAME=");
-				// String[] names =
-				// orderArrayList.get(position).toString().split("NAME=");
 				String[] temp = names[1].split(",");
 				String name = temp[0].substring(8);
 
@@ -146,8 +146,10 @@ public class OrdersListing extends Activity {
 						((BaseAdapter) adapter).notifyDataSetChanged();
 						SendTextNotification sendSMSMessage = new SendTextNotification(
 								OrdersListing.this);
+						// Send SMS message to client.
 						sendSMSMessage.execute(orderArrayList.get(positionToRemove)
 								.toString());
+						// Remove order from the list view and updates the server.
 						deletingObject.execute(orderArrayList.remove(positionToRemove)
 								.toString());
 					}

@@ -61,7 +61,7 @@ public class SettingsActivity extends Activity {
 		status = (TextView) findViewById(R.id.connectionStatus);
 		nameEdit = (EditText) findViewById(R.id.admin_name);
 
-		// Administer signs in if valid face is detected from picture.
+		// Admin signs in if valid face is detected from picture.
 		takeAPicture();
 	}
 
@@ -78,15 +78,12 @@ public class SettingsActivity extends Activity {
 	 * Once picture is taken, admin can try to connect to the server.
 	 */
 	public void loginToServer() {
-		// admin can't log in twice
 		takePic.setEnabled(false);
-		// get values from Text edit and tries to connect to the
-		// server
+		// Connect to the server.
 		myActivity = new Asyncserver(SettingsActivity.this);
 		String stringPort = "8080";
 		String stringIP = "172.31.172.58";
 		IPandPort = stringIP + ":" + stringPort;
-		// start AsyncTask
 		myActivity.execute(IPandPort);
 	}
 
@@ -120,7 +117,7 @@ public class SettingsActivity extends Activity {
 	}
 
 	/**
-	 * Check for a valid administrator picture taken then start listening for
+	 * Check for a valid admin picture taken then start listening for
 	 * administrator login button press.
 	 * 
 	 * @param requestCode
@@ -135,15 +132,17 @@ public class SettingsActivity extends Activity {
 		// Check if picture file was created.
 		if (requestCode == 0 && resultCode == RESULT_OK
 				&& sdImageMainDirectory.exists()) {
+			// Configure the image for face detection.
 			BitmapFactory.Options BitmapFactoryOptionsbfo = new BitmapFactory.Options();
 			BitmapFactoryOptionsbfo.inPreferredConfig = Bitmap.Config.RGB_565;
 			Bitmap myBitmap = BitmapFactory.decodeFile(
 					sdImageMainDirectory.getAbsolutePath(), BitmapFactoryOptionsbfo);
+			// Find the face within the picture.
 			FaceDetector.Face[] myFace = new FaceDetector.Face[1];
 			FaceDetector myFaceDetect = new FaceDetector(myBitmap.getWidth(),
 					myBitmap.getHeight(), 1);
 			myFaceDetect.findFaces(myBitmap, myFace);
-
+			// Check if the face is valid.
 			if (myFace[0] != null && myFace[0].confidence() >= .3) {
 				Toast.makeText(getApplicationContext(), "Valid Admin!",
 						Toast.LENGTH_SHORT).show();

@@ -50,26 +50,39 @@ public class DeleteObject extends AsyncTask<String, Void, String> {
 	 * posting the name and product
 	 * 
 	 * @param deleteOrder
-	 * @return String
+	 *          The order to delete from the order listing.
+	 * @return String The data returned from the server.
 	 * @throws URISyntaxException
+	 *           Handles exceptions when some information could not be parsed
+	 *           while creating a URI
 	 * @throws ClientProtocolException
+	 *           Signals an error in the HTTP protocol.
 	 * @throws IOException
+	 *           Signals that the target server failed to respond with a valid
+	 *           HTTP response.
 	 */
 	public String deleteOrder(String deleteOrder) throws URISyntaxException,
 			ClientProtocolException, IOException {
 		// parsing received information to post into server and delete orders
-		Phone = deleteOrder.substring(deleteOrder.indexOf("Phone Number: ")+14, deleteOrder.indexOf(", TIME"));
-		Time = deleteOrder.substring(deleteOrder.indexOf("Order Time: ")+12, deleteOrder.indexOf(", ORDER"));
-		Order = deleteOrder.substring(deleteOrder.indexOf("ORDER=")+6, deleteOrder.indexOf(", TOTAL="));
-		Total = deleteOrder.substring(deleteOrder.indexOf("Total: $")+8, deleteOrder.indexOf(", NAME="));
-		Name = deleteOrder.substring(deleteOrder.indexOf("Client: ")+8, deleteOrder.indexOf(", CONFIRMATION="));
-		Confirmation = deleteOrder.substring(deleteOrder.indexOf("Confirmation #: ")+16);		
+		Phone = deleteOrder.substring(deleteOrder.indexOf("Phone Number: ") + 14,
+				deleteOrder.indexOf(", TIME"));
+		Time = deleteOrder.substring(deleteOrder.indexOf("Order Time: ") + 12,
+				deleteOrder.indexOf(", ORDER"));
+		Order = deleteOrder.substring(deleteOrder.indexOf("ORDER=") + 6,
+				deleteOrder.indexOf(", TOTAL="));
+		Total = deleteOrder.substring(deleteOrder.indexOf("Total: $") + 8,
+				deleteOrder.indexOf(", NAME="));
+		Name = deleteOrder.substring(deleteOrder.indexOf("Client: ") + 8,
+				deleteOrder.indexOf(", CONFIRMATION="));
+		Confirmation = deleteOrder.substring(deleteOrder
+				.indexOf("Confirmation #: ") + 16);
 		Confirmation = Confirmation.replace("}", "");
 		String newLine = System.getProperty("line.separator");
 		Order = Order.replaceAll(newLine, ", ");
-		
+
 		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://" + SettingsActivity.IPandPort + "/admin");
+		HttpPost post = new HttpPost("http://" + SettingsActivity.IPandPort
+				+ "/admin");
 		String data = "";
 		try {
 			// three parameters are posted to the server
@@ -80,8 +93,7 @@ public class DeleteObject extends AsyncTask<String, Void, String> {
 			nameValuePairs.add(new BasicNameValuePair("total", Total));
 			nameValuePairs.add(new BasicNameValuePair("phone", Phone));
 			nameValuePairs.add(new BasicNameValuePair("confirmation", Confirmation));
-			
-			
+
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 			HttpResponse response = client.execute(post);

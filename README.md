@@ -1,10 +1,12 @@
 adminApp
 ========
 
-Admin app for the FoodNow project
+Admin app for the FoodNow project.
 
-Admin is prompted to take a picture to log in (face recognition in next version).
-After taking the picture, admin can access order database.
-Orders can be deleted once they are made (httpPost).
-Admin can see names, products and times of the orders displayed in a Listview (httpGet).
-
+Admin must add a name and take a picture in order to login to the server. The 
+picture is analyzed using Face Detection to determine it is a valid person.
+The server sends the current orders for the admin to review. Each order contains
+a name, order, phone number, confirmation, and total. When the order is complete,
+the admin can select the order in the list view and delete it. The client is then
+sent an SMS message that their order is ready and the server is updated to remove 
+the order.

@@ -52,39 +52,36 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 		BufferedReader in = null;
 		String data = "";
 		try {
-			// setup http client
 			HttpClient client = new DefaultHttpClient();
-			// process data from
 			URI website = new URI("http://" + IPAndPort + "/admin");
-			// request using get method
 			HttpGet request = new HttpGet(website);
 			HttpResponse response = client.execute(request);
-			// string using buffered reader
-			// streamreader bytes into characters
+
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
 			StringBuffer sb = new StringBuffer("");
 			String l = "";
 			String newline = System.getProperty("line.separator");
+
 			while ((l = in.readLine()) != null) {
 				sb.append(l + newline);
 			}
+
 			in.close();
 			data = sb.toString();
-			// returns responser from the server
-			return (data);
 
+			// returns response from the server
+			return (data);
 		}
 		finally {
 			{
 				try {
 					in.close();
 					return (data);
-
 				}
 				catch (Exception e) {
 					System.out
-							.println("Serious configuration error on line 97 in Asyncserver.java");
+							.println("Configuration error in getInternetData class in UpdateOrderListing.java");
 					e.printStackTrace();
 				}
 			}
@@ -102,16 +99,15 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 	protected String doInBackground(String... params) {
 
 		String ipAndPort = params[0];
-
-		// connecting to server
 		String data = "";
+
 		try {
-			// response from the server
+			// Response from the server
 			data = getInternetData(ipAndPort);
 		}
 		catch (Exception e) {
 			System.out
-					.println("Error while getting a response from the server on line 94.");
+					.println("Error while getting a response from the server in doInBackground.");
 			return null;
 		}
 		return data;
@@ -147,29 +143,28 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 			jObj = new JSONObject(theNewData);
 		}
 		catch (JSONException e1) {
-			System.out.println("Error creating a JSONObject on line 129.");
+			System.out.println("Error creating a JSONObject in parseData method.");
 			e1.printStackTrace();
 		}
 		try {
-			// Getting Array of orders since there are multiple orders in the
-			// json array
+			// Getting Array of orders from the server.
 			Jarray = jObj.getJSONArray("Orders");
 
-			// looping through All objects
 			for (int i = 0; i < Jarray.length(); i++) {
+
 				JSONObject c = Jarray.getJSONObject(i);
 
-				// Storing each JSON item in variable
 				String Phone = c.getString("PHONE");
 				String Time = c.getString("TIME");
 				String Name = c.getString("NAME");
 				String Confirmation = c.getString("CONFIRMATION");
 				String Order = c.getString("ORDER");
 				String Total = c.getString("TOTAL");
+
 				Order = Order.replace("[", "");
 				Order = Order.replace("]", "");
 
-				// Check for multiple orders.
+				// Check for multiple orders per client.
 				if (Order.contains(",")) {
 					String[] str = Order.split(",");
 
@@ -186,11 +181,10 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 							sb.append(temp);
 						}
 					}
-
 					Order = sb.toString();
 				}
 
-				// storing individual order
+				// Configure each order to display in the list view.
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("PHONE", "Phone Number: " + Phone);
 				map.put("TIME", "Order Time: " + Time);
@@ -198,16 +192,16 @@ public class UpdateOrderListing extends AsyncTask<String, Void, String> {
 				map.put("CONFIRMATION", "Confirmation #: " + Confirmation);
 				map.put("ORDER", Order);
 				map.put("TOTAL", "Total: $" + Total);
-				// Add each order to the list.
+
 				OrderArrayList.add(map);
 			}
 		}
 		catch (JSONException e) {
 			System.out
-					.println("JSONExcpetion error while creating a JSONObject on line 138.");
+					.println("JSONExcpetion error while creating a JSONObjec in parseData.");
 			e.printStackTrace();
 		}
-		// passes back arrayList to doInBackground
+
 		return OrderArrayList;
 	}
 }

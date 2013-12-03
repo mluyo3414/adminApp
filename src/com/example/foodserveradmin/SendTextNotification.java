@@ -24,8 +24,9 @@ import android.os.AsyncTask;
  * @author James Dagres
  * @author Matt Luckham
  * 
- *         This activity deletes one client from the server when the order is
- *         ready.
+ *         This sends an SMS message to the client to indicate their order is
+ *         ready. The SMS messenger uses Twilio's server to send the message to
+ *         the client.
  * 
  */
 public class SendTextNotification extends AsyncTask<String, Void, String> {
@@ -34,7 +35,7 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 	OrdersListing activity_;
 
 	/**
-	 * The constructor for the deletObject class.
+	 * The constructor for the SendTextNotification class.
 	 * 
 	 * @param nextActivity
 	 *          main activity instance to start next activity
@@ -53,14 +54,15 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 	 *           Handles URI exception when some information could not be parsed
 	 *           to create the URI.
 	 * @throws ClientProtocolException
-	 * 
+	 *           Signals an error in the HTTP protocol.
 	 * @throws IOException
+	 *           Signals the target server failed to respond with a valid HTTP
+	 *           response.
 	 */
 	public String notifyOrder(String notifyOrder) throws URISyntaxException,
 			ClientProtocolException, IOException {
 
 		String data = "";
-
 		String newline = System.getProperty("line.separator");
 
 		// Parsing order information to get the phone number.
@@ -82,7 +84,7 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 		String userName = "AC04ea0cbe7c68c5a82bef5f55886c26ab";
 		// Twilio AuthToken
 		String password = "7b980637738dc8d43d69f11a3d4f716e";
-
+		// Send HTTP post to the Twilio server.
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(
 				"https://api.twilio.com/2010-04-01/Accounts/AC04ea0cbe7c68c5a82bef5f55886c26ab/SMS/Messages.xml");
@@ -92,7 +94,7 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 		post.setHeader("Authorization", encoding);
 
 		try {
-			// three parameters are posted to the server
+			// Thre parameters are posted to the server
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
 			nameValuePairs.add(new BasicNameValuePair("To", Receiver));
 			nameValuePairs.add(new BasicNameValuePair("From", Sender));
@@ -102,6 +104,7 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 			HttpResponse response = client.execute(post);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response
 					.getEntity().getContent()));
+
 			// Retrieve data from server
 			String line = "";
 			StringBuffer sb = new StringBuffer("");
@@ -128,7 +131,7 @@ public class SendTextNotification extends AsyncTask<String, Void, String> {
 	 * 
 	 * @param arg0
 	 *          Order that is ready.
-	 * @return OrderToBeDeleted The order that was deleted.
+	 * @return orderToNotify The order that was deleted.
 	 */
 	@Override
 	protected String doInBackground(String... arg0) {
