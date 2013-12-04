@@ -1,12 +1,8 @@
 package com.example.foodserveradmin;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.http.HttpResponse;
@@ -16,15 +12,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.app.Activity;
 import android.content.Intent;
-import android.drm.DrmStore.Action;
 import android.os.AsyncTask;
-import android.text.Html;
-import android.text.StaticLayout;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 /**
  * @author Miguel Suarez

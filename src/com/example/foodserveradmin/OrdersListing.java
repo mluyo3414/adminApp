@@ -2,7 +2,6 @@ package com.example.foodserveradmin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -97,14 +96,6 @@ public class OrdersListing extends Activity {
 	}
 
 	/**
-	 * Disables the back button for the Order activity to prevent admin from going
-	 * back to previous order listing.
-	 */
-	@Override
-	public void onBackPressed() {
-	}
-
-	/**
 	 * Triggers new activity once the order is selected a box to delete that order
 	 * will be displayed and then we will post that information to the server and
 	 * also delete it from our app Array list containing the orders.
@@ -157,6 +148,15 @@ public class OrdersListing extends Activity {
 				adb.show();
 			}
 		});
+	}
+
+	/**
+	 * Moves back to the settings activity to login to another admin.
+	 */
+	@Override
+	public void onBackPressed() {
+		startActivity(new Intent(OrdersListing.this, SettingsActivity.class));
+		return;
 	}
 
 	/**

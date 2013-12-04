@@ -1,18 +1,11 @@
 package com.example.foodserveradmin;
 
 import java.io.File;
-import java.util.List;
-import java.util.jar.Attributes.Name;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.FaceDetector;
-import android.media.FaceDetector.Face;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -70,7 +63,7 @@ public class SettingsActivity extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.from_server1, menu);
 		return true;
 	}
 
@@ -78,6 +71,7 @@ public class SettingsActivity extends Activity {
 	 * Once picture is taken, admin can try to connect to the server.
 	 */
 	public void loginToServer() {
+
 		// Connect to the server.
 		myActivity = new Asyncserver(SettingsActivity.this);
 		String stringPort = "8080";
@@ -95,24 +89,44 @@ public class SettingsActivity extends Activity {
 		takePic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// Create a new file for the picture.
-				File root = new File(Environment.getExternalStorageDirectory()
-						+ File.separator + "myDir" + File.separator);
-				root.mkdirs();
-				sdImageMainDirectory = new File(root, "AdminName");
 
-				// Update administrator's picture.
-				if (sdImageMainDirectory.exists()) {
-					sdImageMainDirectory.delete();
-					sdImageMainDirectory = new File(root, "Admin.png");
+				if (!(nameEdit.getText().toString().isEmpty())) {
+					// Create a new file for the picture.
+					File root = new File(Environment.getExternalStorageDirectory()
+							+ File.separator + "myDir" + File.separator);
+					root.mkdirs();
+					sdImageMainDirectory = new File(root, "AdminName");
+
+					// Update administrator's picture.
+					if (sdImageMainDirectory.exists()) {
+						sdImageMainDirectory.delete();
+						sdImageMainDirectory = new File(root, "Admin.png");
+					}
+
+					Uri outputFileUri = Uri.fromFile(sdImageMainDirectory);
+					Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+					intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+					startActivityForResult(intent, 0);
 				}
-
-				Uri outputFileUri = Uri.fromFile(sdImageMainDirectory);
-				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-				startActivityForResult(intent, 0);
+				else {
+					Toast.makeText(getApplicationContext(), "Please enter a name!",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
+	}
+
+	/**
+	 * Overrides the back button to behave like the home button and return to the
+	 * home screen.
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		startActivity(intent);
+		return;
 	}
 
 	/**
