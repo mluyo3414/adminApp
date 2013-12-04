@@ -78,11 +78,10 @@ public class SettingsActivity extends Activity {
 	 * Once picture is taken, admin can try to connect to the server.
 	 */
 	public void loginToServer() {
-		takePic.setEnabled(false);
 		// Connect to the server.
 		myActivity = new Asyncserver(SettingsActivity.this);
 		String stringPort = "8080";
-		String stringIP = "172.31.172.58";
+		String stringIP = "54.201.86.103";
 		IPandPort = stringIP + ":" + stringPort;
 		myActivity.execute(IPandPort);
 	}
